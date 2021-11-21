@@ -69,6 +69,8 @@ class Symm(commands.Cog):
         if str(ctx.channel.id) not in self.ch_images.keys():
             await ctx.send('画像がありません')
         else:
+            await ctx.trigger_typing()
+
             if haba is None:
                 images = self.symmetry(ctx.command.name, self.ch_images[str(ctx.channel.id)])
             elif haba:
@@ -76,15 +78,17 @@ class Symm(commands.Cog):
 
             # 変換した画像をチャンネルに送信
             for image in images:
-                await ctx.send(file=discord.File(fp=image, filename='res.png'))
+                await ctx.reply(file=discord.File(fp=image, filename='res.png'))
 
     async def execute(self, message):
         if str(message.channel.id) not in self.ch_images.keys():
             return
 
+        await message.channel.trigger_typing()
+
         images = self.symmetry("sym", self.ch_images[str(message.channel.id)])
         for image in images:
-            await message.send(file=discord.File(fp=image, filename='res.png'))
+            await message.reply(file=discord.File(fp=image, filename='res.png'))
 
     #シンメトリー処理（画像の左側）
     def symmetry(self, command, img, haba=2):
