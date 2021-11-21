@@ -41,6 +41,7 @@ class Symm(commands.Cog):
                     self.img = Image.open(img_bin)
 
                     self.ch_images[str(ch_id)] = self.img
+                    self.execute(message)
         elif re.match(pattern, message.content) and message.content.endswith(("png", "jpg", "jpeg")):
             async with aiohttp.ClientSession() as session:
                 async with session.get(message.content) as res:
@@ -48,6 +49,7 @@ class Symm(commands.Cog):
                         img_bin = io.BytesIO(await res.read())
                         self.img = Image.open(img_bin)
                         self.ch_images[str(ch_id)] = self.img
+                        self.execute(message)
                 
     
     @commands.command()
@@ -76,7 +78,14 @@ class Symm(commands.Cog):
             for image in images:
                 await ctx.send(file=discord.File(fp=image, filename='res.png'))
 
-    
+    async def execute(self, message):
+        if str(message.channel.id) not in self.ch_images.keys():
+            return
+
+        images = self.symmetry("sym", self.ch_images[str(message.channel.id)])
+        for image in images:
+            await message.send(file=discord.File(fp=image, filename='res.png'))
+
     #シンメトリー処理（画像の左側）
     def symmetry(self, command, img, haba=2):
     
