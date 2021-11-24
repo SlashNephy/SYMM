@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt \
 COPY symm/ /app/symm/
 
 WORKDIR /app/symm
-ENTRYPOINT [ "python", "main.py" ]
+ENTRYPOINT [ "python", "-u", "main.py" ]
