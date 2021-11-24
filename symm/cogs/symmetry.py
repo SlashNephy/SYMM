@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from discord import Message, File
 from discord.ext import commands
 
-from symm.cogs.cloud_vision import CloudVisionFaceDetection
+from .cloud_vision import CloudVisionFaceDetection
 
 
 class Symm(commands.Cog):
