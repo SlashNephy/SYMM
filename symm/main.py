@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 intents = discord.Intents.all()
 cogs = [
-    ".cogs.help",
-    ".cogs.symmetry",
+    "cogs.help",
+    "cogs.symmetry",
 ]
 
 # cogs.help = ヘルプコマンド
@@ -16,19 +16,6 @@ cogs = [
 
 
 class SymmBot(commands.Bot):
-    def __init__(self, command_prefix, help_command, intents):
-        """SymmBotのコンストラクタ。"""
-        # スーパークラスのコンストラクタに値を渡して実行。
-        super().__init__(command_prefix, help_command, intents=intents)
-
-        # cogsに格納されている名前から、コグを読み込む。
-        # エラーが発生した場合は、エラー内容を表示。
-        for cog in cogs:
-            try:
-                self.load_extension(cog)
-            except Exception:
-                traceback.print_exc()
-
     async def on_ready(self):
         print("-----")
         print(self.user.name)
@@ -36,7 +23,7 @@ class SymmBot(commands.Bot):
         print("-----")
 
 
-def main():
+if __name__ == "__main__":
     load_dotenv()
     try:
         BOT_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
@@ -45,8 +32,11 @@ def main():
 
     # command_prefix='s!'でコマンドの開始文字を指定
     bot = SymmBot(command_prefix="s!", help_command=None, intents=intents)
+
+    for cog in cogs:
+        try:
+            bot.load_extension(cog)
+        except Exception:
+            traceback.print_exc()
+
     bot.run(BOT_TOKEN)  # Botのトークン
-
-
-if __name__ == "__main__":
-    main()

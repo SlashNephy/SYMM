@@ -1,4 +1,4 @@
-from symm.cogs.help import Help
-from symm.cogs.symmetry import Symm
+from .help import Help
+from .symmetry import Symm
 
 __all__ = ["Help", "Symm"]
