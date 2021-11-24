@@ -1,47 +1,25 @@
 # SYMM
 
-Discordのチャンネルに送信された直近の画像をシンメトリー化する
+Discordのチャンネルに送信された画像を自動でシンメトリー化する (Cloud Vision API を利用して顔認識するバージョン)
 
-## Installation
+本家同様に画像の添付ファイルと画像 URL に反応し、顔を中心にして左右シンメトリーとした画像を2枚生成します。顔が複数検出された場合には、検出確度が高い順から最大2x3枚まで生成します。
 
-- `sample.env` を `.env`にリネームし、ファイル内の`DISCORD_TOKEN`に自分のDiscord Botトークンを記述してください
+2000 リクエストまで Cloud Vision API では無料で使えますが、レートリミット等は実装されていないためご注意ください。(公開サーバーでの使用はおすすめしません。)
 
-```.env
-DISCORD_TOKEN=typing_your_discord_bot_token
+## How to Run
+
+使用にあたっては Cloud Vision API へのアクセス権と資格情報が必要です。詳しくは [GCP](https://cloud.google.com/vision/docs/quickstart-client-libraries?hl=ja) のドキュメントをご確認ください。
+
+```shell
+$ docker run \
+    -e DISCORD_BOT_TOKEN=xxx \
+    -e GOOGLE_APPLICATION_CREDENTIALS=/path.json \
+    -v $(PWD)/xxx-xxx.json:/path.json:ro \
+    ghcr.io/slashnephy/symm
 ```
 
-- `symm`をインストールします
+![ScreenShot](https://i.imgur.com/xgMr8Ad.png)
 
-```shellsession
-# ソースから
-$ git clone https://github.com/nmn29/SYMM && cd SYMM
-$ pip install
-```
+## Special Thanks
 
-## Run
-
-```shellsession
-# Botが起動する
-$ symm
-```
-
-## Usage
-
-- `s!syml`
-  - チャンネル内で送信された直近の画像の左側を使用したシンメトリー画像の送信
-- `s!symr`
-  - チャンネル内で送信された直近の画像の右側を使用したシンメトリー画像の送信
-- `s!sym`
-  - `s!syml`、`s!symr`の両方の実行結果を送信
-- `s!sym <number>`
-- `s!syml <number>`
-- `s!symr <number>`
-  - 画像の変化量を`1`-`10`の数値で指定（デフォルトは5）
-  - 例: `s!sym 10`
-- `s!help sym`
-  - コマンドの一覧と説明を表示
-
-## Contributors
-
-- maguro869 様
-- nyanmi-1828 様
+- HIKAKIN シンメトリー Bot
