@@ -1,4 +1,4 @@
-FROM python:3.11@sha256:17406cbc3e7ad62ec60a706c6791e78e6a2b44e6054c02e0a31c339926cb4299
+FROM python:3.11@sha256:3a619e3c96fd4c5fc5e1998fd4dcb1f1403eb90c4c6409c70d7e80b9468df7df
 
 COPY requirements.txt /tmp/
 RUN pip install --no-cache-dir -r /tmp/requirements.txt \
